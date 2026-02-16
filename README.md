@@ -10,8 +10,8 @@ Clone the repository.
 
 #### Run the application:
 
-Bash
 ```
+#Bash
 docker-compose up --build
 ```
 Access the API documentation (Swagger UI) at: http://localhost:8000/docs
