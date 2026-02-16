@@ -1,3 +1,4 @@
+# MediVue Task Management Infrastructure
 services:
   db:
     image: postgres:15
@@ -9,7 +10,8 @@ services:
       - POSTGRES_DB=medivue_db
     ports:
       - "5432:5432"
-
+      
+# FastAPI Web Application Service
   web:
     build: .
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
@@ -21,6 +23,7 @@ services:
       - DATABASE_URL=postgresql+asyncpg://medivue_user:medivue_password@db:5432/medivue_db
     depends_on:
       - db
-
+      
+# Persistent storage for the database
 volumes:
   postgres_data:
