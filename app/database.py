@@ -2,13 +2,16 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import os
 
-# Get the URL from the environment variable (defined in docker-compose)
+# Database connection URL retrieved from Docker environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Create the async engine
+# Initialize the Asynchronous SQL Engine
+# echo=True enables SQL logging for development transparency
 engine = create_async_engine(DATABASE_URL, echo=True)
 
-# Create the session factory
+# Create a session factory specifically for AsyncSessions
+# expire_on_commit=False prevents SQLAlchemy from re-fetching objects 
+# automatically, which is essential for stable async operations.
 SessionLocal = sessionmaker(
     bind=engine,
     class_=AsyncSession,
@@ -17,7 +20,8 @@ SessionLocal = sessionmaker(
     autoflush=False,
 )
 
-# Dependency to get the DB session in your endpoints
+# Dependency to provide a scoped database session in FastAPI endpoints.
+# Ensures the session is properly closed after each request.
 async def get_db():
     async with SessionLocal() as session:
         yield session
