@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=medivue_user
+      - POSTGRES_PASSWORD=medivue_password
+      - POSTGRES_DB=medivue_db
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://medivue_user:medivue_password@db:5432/medivue_db
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
