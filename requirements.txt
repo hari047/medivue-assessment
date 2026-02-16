@@ -1,10 +1,16 @@
-fastapi
-uvicorn
-sqlalchemy
-psycopg2-binary
-alembic
-pydantic
-pydantic-settings
-pytest
-httpx
-asyncpg
+# --- Core API Framework ---
+fastapi 
+uvicorn 
+pydantic 
+pydantic-settings 
+
+# --- Database & Persistence ---
+sqlalchemy 
+asyncpg 
+psycopg2-binary 
+alembic 
+
+# --- Testing Suite ---
+pytest 
+httpx 
+anyio
