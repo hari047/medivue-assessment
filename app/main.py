@@ -46,19 +46,15 @@ app = FastAPI(
 # { "error": "Validation Failed", "details": { "field": "message" } }
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    """
-    Intercepts Pydantic validation errors and re-formats them for a 
-    consistent client-side error experience.
-    """
     details = {}
     for error in exc.errors():
-        # Locates the field name and extracts the human-readable error message
         field = str(error["loc"][-1])
         message = error["msg"]
         details[field] = message
 
     return JSONResponse(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        # Updated constant to silence deprecation warning
+        status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
         content={
             "error": "Validation Failed",
             "details": details

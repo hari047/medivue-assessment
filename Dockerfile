@@ -1,15 +1,15 @@
 # Use a slim version of Python 3.10 for a smaller image footprint
-FROM python:3.10-slim [cite: 2]
+FROM python:3.10-slim
 
 # Set the internal working directory
-WORKDIR /app 
+WORKDIR /app
 
 # Install dependencies first to leverage Docker layer caching
-COPY requirements.txt . 
-RUN pip install --no-cache-dir -r requirements.txt 
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
-COPY . . 
+COPY . .
 
 # Expose port 8000 for the FastAPI application
 EXPOSE 8000
